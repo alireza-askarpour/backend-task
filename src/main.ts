@@ -1,6 +1,6 @@
 import { bold } from 'chalk';
 import { ConfigService } from '@nestjs/config';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { AppModule } from '@src/modules/app/app.module';
 import { SwaggerConfig } from '@src/config/swagger.config';
@@ -18,6 +18,7 @@ async function bootstrap() {
     origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   });
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
   const port: number = configService.get<number>('app_port');
   const mode: string = configService.get<string>('app_mode');

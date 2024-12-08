@@ -3,6 +3,9 @@ import { join, resolve } from 'path';
 import { IConfig } from './interfaces/config.interface';
 
 export const config = (): IConfig => {
+  const public_key = readFileSync(join(resolve(), 'src', 'modules', 'auth', 'keys/public.key'), 'utf-8');
+  const private_key = readFileSync(join(resolve(), 'src', 'modules', 'auth', 'keys/private.key'), 'utf-8');
+
   return {
     app_id: process.env.APP_ID,
     app_port: parseInt(process.env.APP_PORT),
@@ -25,8 +28,8 @@ export const config = (): IConfig => {
     },
     jwt: {
       access: {
-        private_key: '',
-        public_key: '',
+        private_key,
+        public_key,
         time: parseInt(process.env.JWT_ACCESS_TIME, 10),
       },
       refresh: {

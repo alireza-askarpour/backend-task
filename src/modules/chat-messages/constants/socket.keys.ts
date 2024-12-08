@@ -1,0 +1,5 @@
+export enum SocketKeys {
+  SEND_MESSAGE = 'SEND_MESSAGE',
+  EXCEPTION = 'EXCEPTION',
+  NEW_MEMBER = 'NEW_MEMBER',
+}
