@@ -7,8 +7,10 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   PrimaryGeneratedColumn,
+  OneToMany,
 } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
+import { ChatRoom } from '@src/modules/chat-rooms/entities/chat-room.entity';
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -32,6 +34,9 @@ export class User extends BaseEntity {
 
   @UpdateDateColumn({ type: 'timestamp' })
   updated_at: Date;
+
+  @OneToMany(() => ChatRoom, chatRoom => chatRoom.owner)
+  chatRooms: ChatRoom[];
 
   @BeforeInsert()
   @BeforeUpdate()

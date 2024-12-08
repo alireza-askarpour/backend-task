@@ -1,14 +1,15 @@
+import { INestApplication } from '@nestjs/common/interfaces';
 import { DocumentBuilder, OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
 
-export const SwaggerConfig = (app: any, path: string): void => {
-  const config = new DocumentBuilder()
+export const SwaggerConfig = (app: INestApplication, path: string): void => {
+  const config: Omit<OpenAPIObject, 'paths'> = new DocumentBuilder()
     .setTitle('Backend Task - REST APIs')
     .setVersion('1.0.0')
     .addBearerAuth(
       {
         type: 'http',
         scheme: 'bearer',
-        in: 'headers',
+        in: 'header',
         name: 'Authorization',
       },
       'default',

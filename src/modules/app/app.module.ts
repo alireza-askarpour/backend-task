@@ -11,6 +11,7 @@ import { UsersModule } from '../users/users.module';
 import { AuthModule } from '../auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from '@src/common/guards/auth.guard';
+import { ChatRoomsModule } from '../chat-rooms/chat-rooms.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { AuthGuard } from '@src/common/guards/auth.guard';
     CommonModule,
     UsersModule,
     AuthModule,
+    ChatRoomsModule,
   ],
   controllers: [AppController],
   providers: [

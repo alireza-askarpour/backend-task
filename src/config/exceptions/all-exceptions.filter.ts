@@ -9,10 +9,8 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const { httpAdapter } = this.httpAdapterHost;
 
     const ctx = host.switchToHttp();
-    const message = exception.message;
+    const message = exception.response.message ?? exception.message;
     const httpStatus = exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
-
-    console.log(exception);
 
     const responseBody = {
       statusCode: httpStatus,
