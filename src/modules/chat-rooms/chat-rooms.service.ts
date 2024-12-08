@@ -8,16 +8,29 @@ import { CHAT_ROOMS_REPOSITORY } from './interfaces/tokens';
 import { IChatRoomsRepository, IChatRoomsService } from './interfaces';
 import { excludeObjectKeys } from '@src/common/utils/exclude_object_keys.util';
 import { User } from '../users/entities/user.entity';
+import { CHAT_ROOM_MEMBERS_REPOSITORY } from '../chat-room-members/constants/tokens.constant';
+import { IChatRoomMembersRepository } from '../chat-room-members/interfaces/chat-room-members-repository.interface';
+import { ChatRoomMemberRole } from '../chat-room-members/entities/chat-room-member.entity';
 
 @Injectable()
 export class ChatRoomsService implements IChatRoomsService {
-  constructor(@Inject(CHAT_ROOMS_REPOSITORY) private readonly chatRoomsRepository: IChatRoomsRepository) {}
+  constructor(
+    @Inject(CHAT_ROOMS_REPOSITORY) private readonly chatRoomsRepository: IChatRoomsRepository,
+    @Inject(CHAT_ROOM_MEMBERS_REPOSITORY) private readonly chatRoomMemberRepository: IChatRoomMembersRepository,
+  ) {}
 
   public async createChatRoom(user: User, createChatRoomDto: CreateChatRoomDto): Promise<{ chat_room: ChatRoom }> {
     // Create a record chat room in database
     const createdChatRoom = await this.chatRoomsRepository.create({
       title: createChatRoomDto.title,
       owner_id: user.user_id,
+    });
+
+    // Create a record chat room member with role admin for join owner to chat room
+    await this.chatRoomMemberRepository.create({
+      chat_room_id: createdChatRoom.chat_room_id,
+      user_id: user.user_id,
+      role: ChatRoomMemberRole.ADMIN,
     });
 
     const owner = excludeObjectKeys(user, 'password_hash');

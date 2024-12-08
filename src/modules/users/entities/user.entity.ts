@@ -1,16 +1,17 @@
 import {
   Entity,
   Column,
+  OneToMany,
   BaseEntity,
   BeforeInsert,
   BeforeUpdate,
   CreateDateColumn,
   UpdateDateColumn,
   PrimaryGeneratedColumn,
-  OneToMany,
 } from 'typeorm';
 import * as bcrypt from 'bcryptjs';
 import { ChatRoom } from '@src/modules/chat-rooms/entities/chat-room.entity';
+import { ChatRoomMember } from '@src/modules/chat-room-members/entities/chat-room-member.entity';
 
 @Entity('users')
 export class User extends BaseEntity {
@@ -37,6 +38,10 @@ export class User extends BaseEntity {
 
   @OneToMany(() => ChatRoom, chatRoom => chatRoom.owner)
   chatRooms: ChatRoom[];
+
+  // Relation to ChatRoomMember
+  @OneToMany(() => ChatRoomMember, chatRoomMember => chatRoomMember.user)
+  chatRoomMemberships: ChatRoomMember[];
 
   @BeforeInsert()
   @BeforeUpdate()

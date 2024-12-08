@@ -1,9 +1,13 @@
-import { Controller, Get, Inject } from '@nestjs/common';
+import { Controller, Get, Inject, UseInterceptors } from '@nestjs/common';
 import { GetUser } from '@src/common/decorators';
 import { ApiGetMe } from './docs/get-me.doc';
 import { USERS_SERVICE, IUsersService } from './interfaces';
 import { ILoggerService, LOGGER_SERVICE } from '../logger/interfaces';
+import { ApiTags } from '@nestjs/swagger';
+import { TransformInterceptor } from '@src/common/interceptors';
 
+@UseInterceptors(TransformInterceptor)
+@ApiTags('Users')
 @Controller('users')
 export class UsersController {
   constructor(

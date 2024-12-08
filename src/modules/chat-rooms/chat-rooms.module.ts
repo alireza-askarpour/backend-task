@@ -5,9 +5,10 @@ import { ChatRoomsController } from './chat-rooms.controller';
 import { ChatRoomsService } from './chat-rooms.service';
 import { ChatRoomsRepository } from './chat-rooms.repository';
 import { CHAT_ROOMS_REPOSITORY, CHAT_ROOMS_SERVICE } from './interfaces';
+import { ChatRoomMembersModule } from '../chat-room-members/chat-room-members.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ChatRoom])],
+  imports: [TypeOrmModule.forFeature([ChatRoom]), ChatRoomMembersModule],
   controllers: [ChatRoomsController],
   providers: [
     {
@@ -19,5 +20,6 @@ import { CHAT_ROOMS_REPOSITORY, CHAT_ROOMS_SERVICE } from './interfaces';
       useClass: ChatRoomsRepository,
     },
   ],
+  exports: [CHAT_ROOMS_REPOSITORY],
 })
 export class ChatRoomsModule {}

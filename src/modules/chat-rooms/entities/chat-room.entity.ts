@@ -1,14 +1,15 @@
-import { User } from '@src/modules/users/entities/user.entity';
 import {
-  BaseEntity,
   Column,
-  CreateDateColumn,
   Entity,
-  JoinColumn,
+  OneToMany,
   ManyToOne,
-  PrimaryGeneratedColumn,
+  BaseEntity,
+  CreateDateColumn,
   UpdateDateColumn,
+  PrimaryGeneratedColumn,
 } from 'typeorm';
+import { User } from '@src/modules/users/entities/user.entity';
+import { ChatRoomMember } from '@src/modules/chat-room-members/entities/chat-room-member.entity';
 
 @Entity('chat_rooms')
 export class ChatRoom extends BaseEntity {
@@ -18,9 +19,13 @@ export class ChatRoom extends BaseEntity {
   @Column({ type: 'uuid' })
   owner_id: string;
 
-  @ManyToOne(() => User, user => user.chatRooms, { eager: false, onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'owner_id' })
+  // Relation to User as the owner
+  @ManyToOne(() => User, user => user.chatRooms, { onDelete: 'CASCADE' })
   owner: User;
+
+  // Relation to ChatRoomMember
+  @OneToMany(() => ChatRoomMember, chatRoomMember => chatRoomMember.chatRoom)
+  members: ChatRoomMember[];
 
   @Column({ type: 'varchar', length: 255 })
   title: string;

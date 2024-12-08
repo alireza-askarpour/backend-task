@@ -12,6 +12,8 @@ import { AuthModule } from '../auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from '@src/common/guards/auth.guard';
 import { ChatRoomsModule } from '../chat-rooms/chat-rooms.module';
+import { ChatMessagesModule } from '../chat-messages/chat-messages.module';
+import { ChatRoomMembersModule } from '../chat-room-members/chat-room-members.module';
 
 @Module({
   imports: [
@@ -26,6 +28,8 @@ import { ChatRoomsModule } from '../chat-rooms/chat-rooms.module';
     UsersModule,
     AuthModule,
     ChatRoomsModule,
+    ChatMessagesModule,
+    ChatRoomMembersModule,
   ],
   controllers: [AppController],
   providers: [
